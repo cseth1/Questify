@@ -1,0 +1,23 @@
+extends Control
+
+onready var task_list = $TaskList
+onready var add_task_button = $AddTaskButton
+onready var player_info = $PlayerInfo
+
+var task_scene = preload("res://Task.tscn")
+
+func _ready():
+    add_task_button.connect("pressed", self, "_on_add_task_button_pressed")
+    update_player_info()
+
+func _on_add_task_button_pressed():
+    var new_task = task_scene.instance()
+    task_list.add_child(new_task)
+    new_task.connect("task_completed", self, "_on_task_completed")
+
+func _on_task_completed(xp):
+    PlayerProfile.add_xp(xp)
+    update_player_info()
+
+func update_player_info():
+    player_info.text = "Level: %d | XP: %d" % [PlayerProfile.level, PlayerProfile.xp]
