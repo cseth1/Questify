@@ -1,8 +1,8 @@
 extends Control
 
-onready var task_list = $TaskList
-onready var add_task_button = $AddTaskButton
-onready var player_info = $PlayerInfo
+onready var task_list = $VBoxContainer/ScrollContainer/TaskList
+onready var add_task_button = $VBoxContainer/AddTaskButton
+onready var player_info = $VBoxContainer/PlayerInfo
 
 var task_scene = preload("res://Task.tscn")
 
@@ -18,6 +18,12 @@ func _on_add_task_button_pressed():
 func _on_task_completed(xp):
     PlayerProfile.add_xp(xp)
     update_player_info()
+    show_reward_popup(xp)
 
 func update_player_info():
-    player_info.text = "Level: %d | XP: %d" % [PlayerProfile.level, PlayerProfile.xp]
+    player_info.text = "Level: %d | XP: %d / %d" % [PlayerProfile.level, PlayerProfile.xp, PlayerProfile.xp_to_next_level]
+
+func show_reward_popup(xp):
+    var popup = preload("res://RewardPopup.tscn").instance()
+    add_child(popup)
+    popup.show_reward(xp)
