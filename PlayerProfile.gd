@@ -6,6 +6,11 @@ var xp = 0
 var total_xp = 0
 var tasks_completed = 0
 var xp_to_next_level = 100
+var currency = 0
+
+func add_currency(amount):
+    currency += amount
+
 
 func add_xp(amount):
     xp += amount
